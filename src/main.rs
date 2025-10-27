@@ -5,8 +5,8 @@ fn main() {
     let my_string = String::from("Hello");
     let count: usize = str_char_len(my_string);
     println!("The string count for hello {}", count);
-    let user:User = get_user_details();
-    println!("The user details {:?}", user);
+    let user:i32 = get_user_age();
+    println!("The user age {:?}", user);
 }
 
 fn is_even(num: i32) -> bool {
@@ -48,13 +48,18 @@ struct User {
     email: String,
     age: i32
 }
-
-fn get_user_details() -> User {
+impl User {
+    fn get_age(&self) -> i32{
+        self.age
+    }
+}
+fn get_user_age() -> i32 {
     let user1:User = User {
         is_active: true,
         name: String::from("Bassey Goodluck"),
         email: String::from("bassygoodluck@gmail.com"),
         age: 29
     };
-    user1
+    user1.get_age()
 }
+
