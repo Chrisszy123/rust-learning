@@ -7,6 +7,18 @@ fn main() {
     println!("The string count for hello {}", count);
     let user:i32 = get_user_age();
     println!("The user age {:?}", user);
+
+    let rect = Shape::Rectangle(1.0, 2.0);
+    calculate_area(rect);
+    let circle = Shape::Circle(4.0);
+    calculate_area(circle);
+
+    let index = find_first_a(String::from("James"));
+
+    match index {
+        Some(value) => println!("index is {}", value),
+        None => println!("a not found")
+    }
 }
 
 fn is_even(num: i32) -> bool {
@@ -52,6 +64,9 @@ impl User {
     fn get_age(&self) -> i32{
         self.age
     }
+    fn debug() -> i32{
+        1
+    }
 }
 fn get_user_age() -> i32 {
     let user1:User = User {
@@ -60,6 +75,28 @@ fn get_user_age() -> i32 {
         email: String::from("bassygoodluck@gmail.com"),
         age: 29
     };
+    println!("debug is {}", User::debug()); // debug is a static method, and as such cannot be called on the object of a class, but from the class itself
     user1.get_age()
 }
 
+enum Shape {
+    Rectangle(f64, f64), // height and width
+    Circle(f64) // radius
+}
+
+fn calculate_area(shape: Shape) -> f64 {
+    let area = match shape {
+        Shape::Rectangle(a, b) => a*b,
+        Shape::Circle(a) =>  3.142 * a * a
+    };
+    area
+}
+
+fn find_first_a (s: String) -> Option<i32> {
+    for (index, char) in s.chars().enumerate(){
+        if char == 'a' {
+            return Some(index as i32)
+        }
+    }
+    None
+}
