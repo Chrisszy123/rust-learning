@@ -1,3 +1,5 @@
+use std::{collections::btree_map::Values, fs::read_to_string}; // rust imports
+
 fn main() {
     println!("Rust, funtions!");
     println!("{}", is_even(15));
@@ -14,10 +16,15 @@ fn main() {
     calculate_area(circle);
 
     let index = find_first_a(String::from("James"));
+    let result = read_to_string("text.txt");
 
     match index {
         Some(value) => println!("index is {}", value),
-        None => println!("a not found")
+        None => println!("a not found"),
+    }
+    match result {
+        Ok(val) => println!("Text file data {}", val),
+        Err(err) => println!("There was an error, {}", err),
     }
 }
 
@@ -92,7 +99,7 @@ fn calculate_area(shape: Shape) -> f64 {
     area
 }
 
-fn find_first_a (s: String) -> Option<i32> {
+fn find_first_a (s: String) -> Option<i32> { // options is used for Null values
     for (index, char) in s.chars().enumerate(){
         if char == 'a' {
             return Some(index as i32)
@@ -100,3 +107,5 @@ fn find_first_a (s: String) -> Option<i32> {
     }
     None
 }
+
+// use of Result Enum
