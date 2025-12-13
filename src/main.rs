@@ -1,4 +1,5 @@
 use std::{collections::btree_map::Values, fs::read_to_string}; // rust imports
+use chrono::{Local, Utc};
 
 fn main() {
     println!("Rust, funtions!");
@@ -26,6 +27,9 @@ fn main() {
         Ok(val) => println!("Text file data {}", val),
         Err(err) => println!("There was an error, {}", err),
     }
+    // using extenal packages
+    let now = Local::now();
+    println!("The time now is {}", now);
 }
 
 fn is_even(num: i32) -> bool {
