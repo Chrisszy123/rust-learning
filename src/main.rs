@@ -1,7 +1,9 @@
-use std::{collections::btree_map::Values, fs::read_to_string}; // rust imports
+use std::{collections::btree_map::Values, fs::read_to_string, collections::HashMap}; // rust imports
 use chrono::{Local, Utc};
 mod borrows;
+mod hashmaps;
 use crate::borrows::*;
+use crate::hashmaps::*;
 
 fn main() {
     println!("Rust, funtions!");
@@ -40,6 +42,14 @@ fn main() {
     let mut s1 = String::from("Goodluck");
     handle_borrows(&mut s1);
     println!("{}", s1);
+
+    // hashmaps
+    let mut users = HashMap::new();
+    users.insert(String::from("Goodluck"), 29);
+    users.insert(String::from("Bassey"), 66);
+
+    println!("Printing age of Goodluck");
+    handle_hasmaps(users, String::from("Goodluck"));
 }
 
 fn is_even(num: i32) -> bool {
