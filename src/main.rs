@@ -1,5 +1,7 @@
 use std::{collections::btree_map::Values, fs::read_to_string}; // rust imports
 use chrono::{Local, Utc};
+mod borrows;
+use crate::borrows::*;
 
 fn main() {
     println!("Rust, funtions!");
@@ -30,6 +32,14 @@ fn main() {
     // using extenal packages
     let now = Local::now();
     println!("The time now is {}", now);
+
+    let a = String::from("Hi");
+    let b = a;
+    println!("New String {}", b);
+
+    let mut s1 = String::from("Goodluck");
+    handle_borrows(&mut s1);
+    println!("{}", s1);
 }
 
 fn is_even(num: i32) -> bool {
