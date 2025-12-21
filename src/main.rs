@@ -2,9 +2,12 @@ use std::{collections::btree_map::Values, fs::read_to_string, collections::HashM
 use chrono::{Local, Utc};
 mod borrows;
 mod hashmaps;
+mod vectors;
+mod strings;
 use crate::borrows::*;
 use crate::hashmaps::*;
-
+use crate::vectors::*;
+use crate::strings::*;
 fn main() {
     println!("Rust, funtions!");
     println!("{}", is_even(15));
@@ -50,6 +53,14 @@ fn main() {
 
     println!("Printing age of Goodluck");
     handle_hasmaps(users, String::from("Goodluck"));
+    let vec = vec![(String::from("Goodluck"), 29), (String::from("Bassey"), 66)];
+    let grouped_vec = group_values_by_keys(vec);
+    println!("The grouped vec {:?}", grouped_vec);
+    vectors_handler();
+    // strings
+    let word: String = String::from("Goodluck Bassey");
+    let first_word: &str = get_first_word(&word); // we take a string slice, which is a pointer of the string "word", hence ownership of "Goodluck Bassey" stays with word
+    println!("{}, {}", first_word, word);
 }
 
 fn is_even(num: i32) -> bool {
