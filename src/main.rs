@@ -1,15 +1,20 @@
-use std::{collections::btree_map::Values, fs::read_to_string, collections::HashMap}; // rust imports
+use std::time::Duration;
+use std::{collections::btree_map::Values, fs::read_to_string, collections::HashMap, thread}; // rust imports
 use chrono::{Local, Utc};
 mod borrows;
 mod hashmaps;
 mod vectors;
 mod strings;
 mod traits;
+mod lifetime;
+mod threads;
 use crate::borrows::*;
 use crate::hashmaps::*;
 use crate::vectors::*;
 use crate::strings::*;
 use crate::traits::*;
+use crate::lifetime::*;
+use crate::threads::*;
 fn main() {
     println!("Rust, funtions!");
     println!("{}", is_even(15));
@@ -64,14 +69,31 @@ fn main() {
     let first_word: &str = get_first_word(&word); // we take a string slice, which is a pointer of the string "word", hence ownership of "Goodluck Bassey" stays with word
     println!("{}, {}", first_word, word);
     // traits
-    let user_trait: User = User{
+    let lastname = String::from("Bassey");
+    let user_trait: User = User {
         is_active: false,
         name: String::from("Goodluck Bassey"),
+        lastname: &lastname,
         email: String::from("bassygoodluck@gmail.com"),
         age: 29
     };
     handle_traits(user_trait); // the reason why this is working because, user trait, impl summary
     //println!("This should not work, as user_trait is out memory {:?}", user_trait);
+
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi nummber {i} from spawned thread");
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+    handle.join().unwrap();
+
+    for i in 1..5 {
+        println!("hi nummber {i} from main thread");
+        thread::sleep(Duration::from_millis(1));
+    }
+    //create_thread();
+    calculate_sum();
 }
 
 fn is_even(num: i32) -> bool {
@@ -107,13 +129,14 @@ fn str_char_len(s: String) -> usize {
 
 // Structs
 #[derive(Debug)]
-struct User {
+struct User <'a> {
     is_active: bool,
     name: String,
+    lastname: &'a str,
     email: String,
     age: i32
 }
-impl Summary for User { // implementing the summary trait for the user
+impl Summary for User <'_>{ // implementing the summary trait for the user
     fn summarize(&self) {
         println!("Hi there");
     }
@@ -125,9 +148,11 @@ impl Summary for User { // implementing the summary trait for the user
     }
 }
 fn get_user_age() -> i32 {
+    let lastname = String::from("Bassey");
     let user1:User = User {
         is_active: true,
         name: String::from("Bassey Goodluck"),
+        lastname: &lastname,
         email: String::from("bassygoodluck@gmail.com"),
         age: 29
     };
