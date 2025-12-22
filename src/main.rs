@@ -4,10 +4,12 @@ mod borrows;
 mod hashmaps;
 mod vectors;
 mod strings;
+mod traits;
 use crate::borrows::*;
 use crate::hashmaps::*;
 use crate::vectors::*;
 use crate::strings::*;
+use crate::traits::*;
 fn main() {
     println!("Rust, funtions!");
     println!("{}", is_even(15));
@@ -61,6 +63,15 @@ fn main() {
     let word: String = String::from("Goodluck Bassey");
     let first_word: &str = get_first_word(&word); // we take a string slice, which is a pointer of the string "word", hence ownership of "Goodluck Bassey" stays with word
     println!("{}, {}", first_word, word);
+    // traits
+    let user_trait: User = User{
+        is_active: false,
+        name: String::from("Goodluck Bassey"),
+        email: String::from("bassygoodluck@gmail.com"),
+        age: 29
+    };
+    handle_traits(user_trait); // the reason why this is working because, user trait, impl summary
+    //println!("This should not work, as user_trait is out memory {:?}", user_trait);
 }
 
 fn is_even(num: i32) -> bool {
@@ -102,12 +113,15 @@ struct User {
     email: String,
     age: i32
 }
-impl User {
+impl Summary for User { // implementing the summary trait for the user
+    fn summarize(&self) {
+        println!("Hi there");
+    }
     fn get_age(&self) -> i32{
         self.age
     }
-    fn debug() -> i32{
-        1
+    fn debug(&self){
+        println!("User is {}, email {}, age {}, and active status is {}", self.name, self.email, self.age, self.is_active);
     }
 }
 fn get_user_age() -> i32 {
@@ -117,7 +131,7 @@ fn get_user_age() -> i32 {
         email: String::from("bassygoodluck@gmail.com"),
         age: 29
     };
-    println!("debug is {}", User::debug()); // debug is a static method, and as such cannot be called on the object of a class, but from the class itself
+    println!("debug is {:?}", User::debug(&user1)); // debug is a static method, and as such cannot be called on the object of a class, but from the class itself
     user1.get_age()
 }
 
